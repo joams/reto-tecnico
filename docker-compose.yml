@@ -1,0 +1,22 @@
+version: '3'
+services:
+  proxy:
+    image: nginx:1.17.10
+    container_name: proxy_reverso
+    depends_on:
+      - backend
+    volumes:
+      - ./proxy/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - 80:80
+
+  backend:
+    image: backend
+    container_name: backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - 8080:80
+      - 443:443
+    restart: on-failure
